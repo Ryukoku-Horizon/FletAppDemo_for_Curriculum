@@ -8,9 +8,11 @@ def main(page: ft.Page):
     def route_change(e):
         page.controls.clear()
 
-        if page.route == "/todo":
+        current_route = page.route if page.route else "/"
+
+        if current_route == "/todo":
             ToDoApp.main(page)
-        elif page.route == "/calc":
+        elif current_route == "/calc":
             calculater.main(page)
         else:
             page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
@@ -24,23 +26,23 @@ def main(page: ft.Page):
                     content=ft.Text("📝 Todoアプリを開く"),
                     width=250,
                     height=50,
-                    on_click=lambda _: page.go("/todo")
+                    on_click=lambda _: page.push_route("/todo")
                 ),
                 
                 ft.Container(height=10),
-                
+
                 ft.Button(
                     content=ft.Text("🔢 電卓アプリを開く"),
                     width=250,
                     height=50,
-                    on_click=lambda _: page.go("/calc")
+                    on_click=lambda _: page.push_route("/calc")
                 ),
             )
         page.update()
 
     page.on_route_change = route_change
-
-    page.go(page.route)
+    initial_route = page.route if page.route else "/"
+    page.push_route(initial_route)
 
 if __name__ == "__main__":
     ft.run(main)
