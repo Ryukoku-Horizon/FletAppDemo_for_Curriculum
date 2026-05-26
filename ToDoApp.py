@@ -105,4 +105,5 @@ def main(page: ft.Page):
         todo_list_column
     )
 
-ft.run(main)
+if __name__ == "__main__":
+    ft.run(main)
