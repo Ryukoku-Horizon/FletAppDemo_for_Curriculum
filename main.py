@@ -22,7 +22,7 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
     def go_app(e):
-        page.launch_url(f"?file={e.control.key}", window_name="_self")
+        page.launch_url(f"?file={e.control.key}")
 
     page.add(
         ft.Text("Horizon Flet デモアプリ集", size=32, weight=ft.FontWeight.BOLD),
