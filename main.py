@@ -7,11 +7,11 @@ APP_ROUTES = {
     "/calc": calculater.main,
 }
 
-async def main(page: ft.Page):
+def main(page: ft.Page):
     page.title = "Flet カリキュラム デモアプリ"
 
-    async def navigate(e):
-        await page.push_route(e.control.key)
+    def navigate(e):
+        page.push_route(e.control.key)
 
     def route_change(e):
         page.controls.clear()
@@ -26,7 +26,7 @@ async def main(page: ft.Page):
                 ft.Text("Horizon Flet デモアプリ集", size=32, weight=ft.FontWeight.BOLD),
                 ft.Text("さわってみたいアプリを選んでください", size=16, color=ft.Colors.GREY),
                 ft.Container(height=20),
-
+                
                 ft.Button(
                     content=ft.Text("📝 Todoアプリを開く"),
                     width=250,
@@ -36,7 +36,7 @@ async def main(page: ft.Page):
                 ),
                 
                 ft.Container(height=10),
-
+                
                 ft.Button(
                     content=ft.Text("🔢 電卓アプリを開く"),
                     width=250,
@@ -48,9 +48,8 @@ async def main(page: ft.Page):
         page.update()
 
     page.on_route_change = route_change
-    
-    initial_route = page.route if page.route else "/"
-    await page.push_route(initial_route)
+
+    route_change(None)
 
 if __name__ == "__main__":
     ft.run(main)
