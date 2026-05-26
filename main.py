@@ -1,55 +1,52 @@
 import flet as ft
 import ToDoApp
 import calculater
-
-APP_ROUTES = {
-    "/todo": ToDoApp.main,
-    "/calc": calculater.main,
-}
+from urllib.parse import urlparse, parse_qs
 
 def main(page: ft.Page):
     page.title = "Flet カリキュラム デモアプリ"
 
-    def navigate(e):
-        page.push_route(e.control.key)
+    parsed_url = urlparse(page.url)
+    query_params = parse_qs(parsed_url.query)
 
-    def route_change(e):
-        page.controls.clear()
-        current_route = page.route if page.route else "/"
+    file_param = query_params.get("file", [None])[0]
 
-        if current_route in APP_ROUTES:
-            APP_ROUTES[current_route](page)
-        else:
-            page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-            page.vertical_alignment = ft.MainAxisAlignment.CENTER
-            page.add(
-                ft.Text("Horizon Flet デモアプリ集", size=32, weight=ft.FontWeight.BOLD),
-                ft.Text("さわってみたいアプリを選んでください", size=16, color=ft.Colors.GREY),
-                ft.Container(height=20),
-                
-                ft.Button(
-                    content=ft.Text("📝 Todoアプリを開く"),
-                    width=250,
-                    height=50,
-                    key="/todo",
-                    on_click=navigate
-                ),
-                
-                ft.Container(height=10),
-                
-                ft.Button(
-                    content=ft.Text("🔢 電卓アプリを開く"),
-                    width=250,
-                    height=50,
-                    key="/calc",
-                    on_click=navigate
-                ),
-            )
-        page.update()
+    if file_param == "ToDoApp.py":
+        ToDoApp.main(page)
+        return
+    elif file_param == "calculater.py":
+        calculater.main(page)
+        return
 
-    page.on_route_change = route_change
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
-    route_change(None)
+    def go_app(e):
+        page.launch_url(f"?file={e.control.key}", window_name="_self")
+
+    page.add(
+        ft.Text("Horizon Flet デモアプリ集", size=32, weight=ft.FontWeight.BOLD),
+        ft.Text("さわってみたいアプリを選んでください", size=16, color=ft.Colors.GREY),
+        ft.Container(height=20),
+
+        ft.Button(
+            content=ft.Text("📝 Todoアプリを開く"),
+            width=250,
+            height=50,
+            key="ToDoApp.py",
+            on_click=go_app
+        ),
+        
+        ft.Container(height=10),
+
+        ft.Button(
+            content=ft.Text("🔢 電卓アプリを開く"),
+            width=250,
+            height=50,
+            key="calculater.py",
+            on_click=go_app
+        ),
+    )
 
 if __name__ == "__main__":
     ft.run(main)
