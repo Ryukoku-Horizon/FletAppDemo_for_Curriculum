@@ -12,18 +12,21 @@ def main(page: ft.Page):
     page.add(
         ft.Text("Horizon Flet デモアプリ集", size=32, weight=ft.FontWeight.BOLD),
         ft.Text("さわってみたいアプリを選んでください", size=16, color=ft.Colors.GREY),
-        ft.VerticalDivider(height=20),
 
-        ft.ElevatedButton(
-            text="📝 Todoアプリを開く",
+        ft.Container(height=20),
+
+        ft.Button(
+            content="📝 Todoアプリを開く",
             width=250,
             height=50,
             key="ToDoApp.py",
             on_click=go_app
         ),
-        ft.VerticalDivider(height=10),
-        ft.ElevatedButton(
-            text="🔢 電卓アプリを開く",
+
+        ft.Container(height=10),
+
+        ft.Button(
+            content="🔢 電卓アプリを開く",
             width=250,
             height=50,
             key="calculater.py",
